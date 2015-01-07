@@ -25,13 +25,18 @@
     {
         float2 uv = i.uv;
 
+#if 0
         half y  = tex2Dlod(_MainTex, float4(uv, 0, 0)).a;
+        half cb = tex2Dlod(_MainTex, float4(uv, 0, 2)).a - 0.5;
+        half cr = tex2Dlod(_MainTex, float4(uv, 0, 1)).a - 0.5;
+#else
+        half y  = tex2Dbias(_MainTex, float4(uv, 0, 0)).a;
+        half cb = tex2Dbias(_MainTex, float4(uv, 0, 2)).a - 0.5;
+        half cr = tex2Dbias(_MainTex, float4(uv, 0, 1)).a - 0.5;
+#endif
 
         clip(y - 1.0 / 256);
         y = (y - 1.0 / 256) * 256.0 / 255;
-
-        half cb = tex2Dlod(_MainTex, float4(uv, 0, 2)).a - 0.5;
-        half cr = tex2Dlod(_MainTex, float4(uv, 0, 1)).a - 0.5;
 
         return half4(YCbCrtoRGB(y, cb, cr), 1);
     }

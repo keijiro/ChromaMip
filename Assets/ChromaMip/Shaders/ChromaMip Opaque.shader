@@ -24,9 +24,17 @@
     half4 frag(v2f_img i) : SV_Target 
     {
         float2 uv = i.uv;
+
+#if 0
         half y  = tex2Dlod(_MainTex, float4(uv, 0, 0)).a;
         half cb = tex2Dlod(_MainTex, float4(uv, 0, 2)).a - 0.5;
         half cr = tex2Dlod(_MainTex, float4(uv, 0, 1)).a - 0.5;
+#else
+        half y  = tex2Dbias(_MainTex, float4(uv, 0, 0)).a;
+        half cb = tex2Dbias(_MainTex, float4(uv, 0, 2)).a - 0.5;
+        half cr = tex2Dbias(_MainTex, float4(uv, 0, 1)).a - 0.5;
+#endif
+
         return half4(YCbCrtoRGB(y, cb, cr), 1);
     }
 
