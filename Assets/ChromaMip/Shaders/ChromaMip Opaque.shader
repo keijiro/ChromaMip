@@ -10,6 +10,7 @@
     #include "UnityCG.cginc"
 
     sampler2D _MainTex;
+    float4 _MainTex_TexelSize;
 
     half3 YCbCrtoRGB(half y, half cb, half cr)
     {
@@ -22,9 +23,10 @@
 
     half4 frag(v2f_img i) : SV_Target 
     {
-        half y  = tex2Dlod(_MainTex, float4(i.uv, 0, 0)).a;
-        half cb = tex2Dlod(_MainTex, float4(i.uv, 0, 1)).a - 0.5;
-        half cr = tex2Dlod(_MainTex, float4(i.uv, 0, 2)).a - 0.5;
+        float2 uv = i.uv;// + _MainTex_TexelSize.xy * 0.5;
+        half y  = tex2Dlod(_MainTex, float4(uv, 0, 0)).a;
+        half cb = tex2Dlod(_MainTex, float4(uv, 0, 2)).a - 0.5;
+        half cr = tex2Dlod(_MainTex, float4(uv, 0, 1)).a - 0.5;
         return half4(YCbCrtoRGB(y, cb, cr), 1);
     }
 

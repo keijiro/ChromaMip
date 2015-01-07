@@ -72,7 +72,7 @@ class ChromaMipProcessor : AssetPostprocessor
 
         for (var iy = 0; iy < th / 2; iy++)
             for (var ix = 0; ix < tw / 2; ix++, index++)
-                pixels[index].a = RGB_Cb(pixels[index]) + 0.5f;
+                pixels[index].a = RGB_Cr(pixels[index]) + 0.5f;
 
         texture.SetPixels(pixels, 1);
 
@@ -81,7 +81,7 @@ class ChromaMipProcessor : AssetPostprocessor
 
         for (var iy = 0; iy < th / 4; iy++)
             for (var ix = 0; ix < tw / 4; ix++, index++)
-                pixels[index].a = RGB_Cr(pixels[index]) + 0.5f;
+                pixels[index].a = RGB_Cb(pixels[index]) + 0.5f;
 
         texture.SetPixels(pixels, 2);
 
