@@ -23,7 +23,7 @@
 
     half4 frag(v2f_img i) : SV_Target 
     {
-        float2 uv = i.uv;// + _MainTex_TexelSize.xy * 0.5;
+        float2 uv = i.uv;
         half y  = tex2Dlod(_MainTex, float4(uv, 0, 0)).a;
         half cb = tex2Dlod(_MainTex, float4(uv, 0, 2)).a - 0.5;
         half cr = tex2Dlod(_MainTex, float4(uv, 0, 1)).a - 0.5;
@@ -34,6 +34,7 @@
 
     SubShader
     {
+        Tags { "Queue"="Geometry" }
         Pass
         {
             CGPROGRAM
